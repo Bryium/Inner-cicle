@@ -1,45 +1,17 @@
-// import { auth } from "@/auth";
 import { Button } from "@heroui/react";
+import { FaRegSmile } from "react-icons/fa";
 import Link from "next/link";
 
-export default async function Home() {
-  const session = await auth();
-
+export default function Home() {
   return (
-    <div className="flex flex-col justify-center items-center mt-20 gap-6 text-default">
-      <h1 className="text-4xl font-bold">Welcome to Inner Circle App</h1>
-      {session ? (
-        <Button
-          as={Link}
-          href="/members"
-          size="lg"
-          color="default"
-          variant="bordered"
-        >
-          Continue
+    <div>
+      <h1 className="text-3xl">Inner Circle</h1>
+      <Link href="/navbar">
+        <Button className="flex items-center space-x-2 bg-blue-500 text-white border border-blue-700 hover:bg-blue-700 rounded-lg">
+          <FaRegSmile size={20} />
+          <span>Click me</span>
         </Button>
-      ) : (
-        <div className="flex flex-row gap-4">
-          <Button
-            as={Link}
-            href="/login"
-            size="lg"
-            color="default"
-            variant="bordered"
-          >
-            Login
-          </Button>
-          <Button
-            as={Link}
-            href="/register"
-            size="lg"
-            color="default"
-            variant="bordered"
-          >
-            Register
-          </Button>
-        </div>
-      )}
+      </Link>
     </div>
   );
 }

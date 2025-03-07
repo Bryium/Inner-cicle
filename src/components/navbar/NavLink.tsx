@@ -1,7 +1,6 @@
 "use client";
 
-import useMessageStore from "@/hooks/useMessageStore";
-import { Link } from "heroui";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
@@ -12,19 +11,18 @@ type Props = {
 
 export default function NavLink({ href, label }: Props) {
   const pathname = usePathname();
-  const { unreadCount } = useMessageStore((state) => ({
-    unreadCount: state.unreadCount,
-  }));
+  console.log("pathname::: ", pathname);
+
+  const isActive = pathname === href;
 
   return (
     <Link
       href={href}
-      className={`${pathname === href ? "active" : ""}`} // Adjust this class for active styles
+      className={`text-xl ${
+        isActive ? "text-yellow-200" : "text-white"
+      } hover:text-yellow-200 transition duration-300`}
     >
-      <span>{label}</span>
-      {href === "/messages" && unreadCount > 0 && (
-        <span className="ml-1">({unreadCount})</span>
-      )}
+      {label}
     </Link>
   );
 }

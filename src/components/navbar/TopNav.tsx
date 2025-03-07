@@ -1,83 +1,48 @@
-import { Button, Navbar, NavbarBrand, NavbarContent } from "@heroui/react";
+import { Button } from "@heroui/react";
 import Link from "next/link";
 import React from "react";
 import { GiSelfLove } from "react-icons/gi";
 import NavLink from "./NavLink";
-import { auth } from "@/auth";
-import UserMenu from "./UserMenu";
-import { getUserInfoForNav } from "@/app/actions/userActions";
-import FiltersWrapper from "./FiltersWrapper";
 
-export default async function TopNav() {
-  const session = await auth();
-  const userInfo = session?.user && (await getUserInfoForNav());
-
-  const memberLinks = [
-    { href: "/members", label: "Matches" },
-    { href: "/lists", label: "Lists" },
-    { href: "/messages", label: "Messages" },
-  ];
-
-  const adminLinks = [
-    {
-      href: "/admin/moderation",
-      label: "Photo Moderation",
-    },
-  ];
-
-  const links = session?.user.role === "ADMIN" ? adminLinks : memberLinks;
+export default function TopNav() {
   return (
-    <>
-      <Navbar
-        maxWidth="full"
-        className="bg-gradient-to-r from-pink-400 via-red-400 to-pink-600"
-        classNames={{
-          item: [
-            "text-xl",
-            "text-white",
-            "uppercase",
-            "data-[active=true]:text-yellow-200",
-          ],
-        }}
-      >
-        <NavbarBrand as={Link} href="/">
+    <div className="w-full bg-gradient-to-r from-pink-400 via-red-400 to-pink-600">
+      <div className="flex justify-between items-center p-4">
+        {/* Brand Section */}
+        <Link href="/" className="flex items-center gap-2">
           <GiSelfLove size={40} className="text-gray-200" />
-          <div className="font-bold text-3xl flex">
+          <div className="font-bold text-3xl">
             <span className="text-gray-200">Inner-circle</span>
           </div>
-        </NavbarBrand>
-        <NavbarContent justify="center">
-          {session &&
-            links.map((item) => (
-              <NavLink key={item.href} href={item.href} label={item.label} />
-            ))}
-        </NavbarContent>
-        <NavbarContent justify="end">
-          {userInfo ? (
-            <UserMenu userInfo={userInfo} />
-          ) : (
-            <>
-              <Button
-                as={Link}
-                href="/login"
-                variant="bordered"
-                className="text-white"
-              >
-                Login
-              </Button>
-              <Button
-                as={Link}
-                href="/register"
-                variant="bordered"
-                className="text-white"
-              >
-                Register
-              </Button>
-            </>
-          )}
-        </NavbarContent>
-      </Navbar>
-      <FiltersWrapper />
-    </>
+        </Link>
+
+        {/* Nav Links */}
+        <div className="flex gap-6">
+          <NavLink href="/members" label="Matches" />
+          <NavLink href="/lists" label="Lists" />
+          <NavLink href="/messages" label="Messages" />
+        </div>
+
+        {/* Button Section */}
+        <div className="flex gap-4">
+          <Link href="/login">
+            <Button
+              variant="outlined"
+              className="text-white border-white hover:bg-white hover:text-black"
+            >
+              Login
+            </Button>
+          </Link>
+          <Link href="/register">
+            <Button
+              variant="outlined"
+              className="text-white border-white hover:bg-white hover:text-black"
+            >
+              Register
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }
